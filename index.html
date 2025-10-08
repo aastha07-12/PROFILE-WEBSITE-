@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Your Name] - [Your Profession]</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lora:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <style>
+        /* Define custom properties for your color palette */
+        :root {
+            --bg-primary: #FDFBF7;
+            --text-primary: #374151;
+            --text-secondary: #6B7280;
+            --accent: #D97706;
+            --accent-light: #fef3c7; /* A light amber for subtle backgrounds */
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+        }
+
+        /* Apply the serif font for headings */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lora', serif;
+            color: var(--text-primary);
+        }
+        
+        /* Custom accent color classes */
+        .accent-text { color: var(--accent); }
+        .accent-bg { background-color: var(--accent); }
+        .hover\:accent-text:hover { color: var(--accent); }
+        .border-accent { border-color: var(--accent); }
+        
+        /* Thin, light gray divider style */
+        .divider {
+            border-top: 1px solid #e5e7eb;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Custom styles for the secondary button */
+        .btn-secondary {
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+    </style>
+</head>
+<body class="antialiased"> 
+
+
+<header class="bg-white/80 backdrop-blur-md shadow-sm fixed w-full z-20">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold">
+                <a href="#home" class="font-serif">[IN]</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="text-sm font-medium text-gray-600 hover:accent-text transition duration-300">About</a>
+                <a href="#projects" class="text-sm font-medium text-gray-600 hover:accent-text transition duration-300">Projects</a>
+                <a href="#experience" class="text-sm font-medium text-gray-600 hover:accent-text transition duration-300">Experience</a>
+                <a href="#skills" class="text-sm font-medium text-gray-600 hover:accent-text transition duration-300">Skills</a>
+                <a href="#designs" class="text-sm font-medium text-gray-600 hover:accent-text transition duration-300">Gallery</a>
+                <a href="#contact" class="text-sm font-medium text-white accent-bg py-2 px-4 rounded-md hover:opacity-90 transition duration-300">Contact</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-gray-700 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white">
+            <a href="#about" class="block py-3 px-6 text-sm text-gray-700 hover:bg-gray-50">About</a>
+            <a href="#projects" class="block py-3 px-6 text-sm text-gray-700 hover:bg-gray-50">Projects</a>
+            <a href="#experience" class="block py-3 px-6 text-sm text-gray-700 hover:bg-gray-50">Experience</a>
+            <a href="#skills" class="block py-3 px-6 text-sm text-gray-700 hover:bg-gray-50">Skills</a>
+            <a href="#designs" class="block py-3 px-6 text-sm text-gray-700 hover:bg-gray-50">Gallery</a>
+            <a href="#contact" class="block py-3 px-6 text-sm text-gray-700 hover:bg-gray-50">Contact</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="min-h-screen flex items-center pt-24 pb-16">
+            <div class="container mx-auto px-6">
+                <div class="max-w-3xl" data-aos="fade-up">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4">[Your Name]</h1>
+                    <p class="text-xl md:text-2xl mb-8" style="color: var(--text-secondary);">[Your Job Title] | [Your Specialization]</p>
+                    <p class="max-w-2xl mb-10" style="color: var(--text-secondary);">
+                        This is your professional summary. Briefly introduce yourself and highlight your key skills, passion, and what you bring to the table. Make it engaging!
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#contact" class="text-base font-medium text-white accent-bg py-3 px-6 rounded-lg hover:opacity-90 transition duration-300 shadow-lg">
+                            Get In Touch
+                        </a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="text-base font-medium py-3 px-6 rounded-lg btn-secondary shadow-lg">
+                            Download Resume
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>   
+
+
+        <section id="about" class="py-24">
+            <div class="container mx-auto px-6" data-aos="fade-up">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h2 class="text-3xl md:text-4xl font-semibold mb-6">About Me</h2>
+                    <div class="divider max-w-xs mx-auto"></div>
+                    <p class="text-lg" style="color: var(--text-secondary);">
+                        Share more about your journey here. Talk about your background, what drives your passion for your field, and your professional values. You can mention your preferred work environment, your approach to problem-solving, and the kind of impact you aim to make.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="projects" class="py-24 bg-white">
+            <div class="container mx-auto px-6" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-semibold text-center mb-12">Featured Projects</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-gray-50 rounded-lg shadow-md overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
+                        <img src="https://placehold.co/600x400/d1d5db/374151?text=Your+Project+Image" alt="Project 1" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Project Title 1</h3>
+                            <p class="text-sm mb-4" style="color: var(--text-secondary);">Briefly describe your project here. Mention the key challenge, the solution you developed, and the outcome or impact it had.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background-color: var(--accent-light); color: var(--accent);">Skill 1</span>
+                                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background-color: var(--accent-light); color: var(--accent);">Skill 2</span>
+                                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background-color: var(--accent-light); color: var(--accent);">Skill 3</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg shadow-md overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
+                        <img src="https://placehold.co/600x400/d1d5db/374151?text=Your+Project+Image" alt="Project 2" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                             <h3 class="text-xl font-bold mb-2">Project Title 2</h3>
+                            <p class="text-sm mb-4" style="color: var(--text-secondary);">Briefly describe your project here. Mention the key challenge, the solution you developed, and the outcome or impact it had.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background-color: var(--accent-light); color: var(--accent);">Tech 1</span>
+                                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background-color: var(--accent-light); color: var(--accent);">Tech 2</span>
+                                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background-color: var(--accent-light); color: var(--accent);">Methodology</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section> 
+
+
+
+        <section id="experience" class="py-24" style="background-color: #fdfdfd;">
+            <div class="container mx-auto px-6" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-semibold text-center mb-12">Professional Experience</h2>
+                <div class="max-w-3xl mx-auto">
+                    <div class="mb-12">
+                        <div class="flex justify-between items-baseline mb-2">
+                             <h3 class="text-xl font-bold">[Job Title]</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">[Start Date] - [End Date]</p>
+                        </div>
+                        <p class="text-md font-medium accent-text mb-3">[Company Name]</p>
+                        <ul class="list-disc list-inside text-sm space-y-2" style="color: var(--text-secondary);">
+                            <li>Describe a key responsibility or a significant achievement. Use action verbs.</li>
+                            <li>Quantify your accomplishments whenever possible (e.g., "Increased efficiency by 15%").</li>
+                            <li>Mention another important contribution or skill you developed in this role.</li>
+                            <li>Briefly describe your collaboration with other teams or stakeholders.</li>
+                        </ul>
+                    </div>
+                    <div class="mb-12">
+                        <div class="flex justify-between items-baseline mb-2">
+                             <h3 class="text-xl font-bold">[Previous Job Title]</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">[Start Date] - [End Date]</p>
+                        </div>
+                        <p class="text-md font-medium accent-text mb-3">[Previous Company Name]</p>
+                        <ul class="list-disc list-inside text-sm space-y-2" style="color: var(--text-secondary);">
+                            <li>Describe a key responsibility or a significant achievement.</li>
+                            <li>Mention another important contribution or skill you developed.</li>
+                            <li>Add another point about your role here.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+
+        <section id="skills" class="py-24 bg-white">
+            <div class="container mx-auto px-6" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-semibold text-center mb-12">Technical Skills</h2>
+                <div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 text-center">
+                    <div class="p-4 transform hover:scale-110 transition-transform duration-300">
+                        <h3 class="text-lg font-semibold">[Skill Name 1]</h3>
+                        <p class="text-sm" style="color: var(--text-secondary);">[Brief Description]</p>
+                    </div>
+                    <div class="p-4 transform hover:scale-110 transition-transform duration-300">
+                        <h3 class="text-lg font-semibold">[Skill Name 2]</h3>
+                        <p class="text-sm" style="color: var(--text-secondary);">[Brief Description]</p>
+                    </div>
+                    <div class="p-4 transform hover:scale-110 transition-transform duration-300">
+                        <h3 class="text-lg font-semibold">[Skill Name 3]</h3>
+                        <p class="text-sm" style="color: var(--text-secondary);">[Brief Description]</p>
+                    </div>
+                    <div class="p-4 transform hover:scale-110 transition-transform duration-300">
+                        <h3 class="text-lg font-semibold">[Skill Name 4]</h3>
+                        <p class="text-sm" style="color: var(--text-secondary);">[Brief Description]</p>
+                    </div>
+                    <div class="p-4 transform hover:scale-110 transition-transform duration-300">
+                        <h3 class="text-lg font-semibold">[Skill Name 5]</h3>
+                        <p class="text-sm" style="color: var(--text-secondary);">[Brief Description]</p>
+                    </div>
+                    <div class="p-4 transform hover:scale-110 transition-transform duration-300">
+                        <h3 class="text-lg font-semibold">[Skill Name 6]</h3>
+                        <p class="text-sm" style="color: var(--text-secondary);">[Brief Description]</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="designs" class="py-24" style="background-color: #fdfdfd;">
+            <div class="container mx-auto px-6" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-semibold text-center mb-12">Design Gallery</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="block bg-white rounded-lg shadow-md overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
+                        <img src="https://placehold.co/600x400/eeeeee/374151?text=Gallery+Image+1" alt="Gallery Item 1" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Gallery Item 1</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">A short description of your design, artwork, or render. Explain what it is and what makes it interesting.</p>
+                        </div>
+                    </a>
+
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="block bg-white rounded-lg shadow-md overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
+                        <img src="https://placehold.co/600x400/eeeeee/374151?text=Gallery+Image+2" alt="Gallery Item 2" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Gallery Item 2</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">A short description of your design, artwork, or render. Explain what it is and what makes it interesting.</p>
+                        </div>
+                    </a> 
+
+
+
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="block bg-white rounded-lg shadow-md overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
+                        <img src="https://placehold.co/600x400/eeeeee/374151?text=Gallery+Image+3" alt="Gallery Item 3" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                             <h3 class="text-xl font-bold mb-2">Gallery Item 3</h3>
+                             <p class="text-sm" style="color: var(--text-secondary);">A short description of your design, artwork, or render. Explain what it is and what makes it interesting.</p>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-24" style="background-color: var(--bg-primary);">
+            <div class="container mx-auto px-6" data-aos="fade-up">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h2 class="text-3xl md:text-4xl font-semibold mb-4">Let's Build Something Great</h2>
+                    <p class="text-lg mb-8" style="color: var(--text-secondary);">I am always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious vision. Feel free to reach out.</p>
+                    <a href="mailto:your.email@example.com" class="text-xl font-medium accent-text hover:underline">
+                        your.email@example.com
+                    </a>
+                    <div class="flex justify-center space-x-6 mt-8">
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:accent-text transition duration-300">
+                           <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                        </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-8 bg-white">
+        <div class="container mx-auto px-6 text-center">
+             <p class="text-sm" style="color: var(--text-secondary);">&copy; 2025 [Your Name]. Designed with care.</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 750, // values from 0 to 3000, with step 50ms
+            once: true, // whether animation should happen only once - while scrolling down
+        });
+
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelectorAll('#mobile-menu a, header a[href^="#"]');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Smooth scrolling for all anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
