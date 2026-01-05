@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bash — 80x24</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Inconsolata:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-term: #0f1c30;
+            /* Deep retro blue */
+            --text-white: #e9e9e9;
+            --text-blue: #6699ff;
+            --text-green: #00ff00;
+            --text-cyan: #00ffff;
+            --text-red: #ff3333;
+            --window-gray: #c0c0c0;
+            --window-border: #808080;
+        }
+
+        body {
+            background-color: #2b2b2b;
+            /* Desktop bg */
+            font-family: 'Inconsolata', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        /* RETRO WINDOW FRAME */
+        .window-frame {
+            width: 100%;
+            max-width: 900px;
+            background-color: var(--window-gray);
+            border: 1px solid #404040;
+            border-radius: 4px 4px 0 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            height: 85vh;
+        }
+
+        .title-bar {
+            background: linear-gradient(to bottom, #e0e0e0, #b0b0b0);
+            border-bottom: 1px solid #808080;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .window-controls {
+            position: absolute;
+            left: 8px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .win-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-red {
+            background: #ff5f57;
+        }
+
+        .btn-yellow {
+            background: #ffbd2e;
+        }
+
+        .btn-green {
+            background: #28c940;
+        }
+
+        .window-title {
+            font-size: 13px;
+            color: #333;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 500;
+        }
+
+        /* RETRO TABS */
+        .tabs-bar {
+            background: #d4d4d4;
+            border-bottom: 1px solid #808080;
+            display: flex;
+            padding-top: 2px;
+            gap: 1px;
+        }
+
+        .mac-tab {
+            flex: 1;
+            text-align: center;
+            padding: 4px;
+            font-size: 12px;
+            color: #555;
+            background: #cdcdcd;
+            border: 1px solid #a0a0a0;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+            margin: 0 2px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            font-family: sans-serif;
+        }
+
+        .mac-tab.active {
+            background: #e6e6e6;
+            color: #000;
+            font-weight: 600;
+            height: 28px;
+            /* Slightly taller to overlap border */
+            margin-top: -2px;
+            z-index: 10;
+        }
+
+        /* TERMINAL CONTENT SCREEN */
+        .terminal-screen {
+            background-color: var(--bg-term);
+            flex: 1;
+            padding: 8px;
+            color: var(--text-white);
+            font-size: 16px;
+            line-height: 1.4;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        ::selection {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* UTILS */
+        .prompt-line {
+            margin-bottom: 4px;
+        }
+
+        .user {
+            color: var(--text-green);
+            font-weight: bold;
+        }
+
+        .host {
+            color: var(--text-green);
+            font-weight: bold;
+        }
+
+        .path {
+            color: var(--text-blue);
+            font-weight: bold;
+        }
+
+        /* LS -L STYLE LISTING */
+        .ls-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Inconsolata', monospace;
+            margin-bottom: 20px;
+        }
+
+        .ls-row {
+            white-space: pre;
+        }
+
+        .ls-perm {
+            color: #888;
+        }
+
+        .ls-size {
+            color: #aaa;
+            width: 60px;
+            text-align: right;
+            display: inline-block;
+        }
+
+        .ls-date {
+            color: #aaa;
+            width: 70px;
+            text-align: right;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .ls-name {
+            margin-left: 10px;
+        }
+
+        .dir-link {
+            color: var(--text-blue);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .dir-link:hover {
+            background-color: var(--text-blue);
+            color: var(--bg-term);
+        }
+
+        .exec-link {
+            color: var(--text-green);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .exec-link:hover {
+            background-color: var(--text-green);
+            color: var(--bg-term);
+        }
+
+        .file-link {
+            color: var(--text-white);
+            text-decoration: none;
+        }
+
+        .file-link:hover {
+            background-color: var(--text-white);
+            color: var(--bg-term);
+        }
+
+        /* SECTIONS HIDDEN INITIALLY (Except Home) */
+        .term-section {
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        .term-section.active {
+            display: block;
+        }
+
+        .command-input {
+            background: transparent;
+            border: none;
+            color: var(--text-white);
+            font-family: 'Inconsolata', monospace;
+            font-size: 16px;
+            outline: none;
+            width: 80%;
+        }
+
+        .cursor-block {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background: #888;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="window-frame">
+        <!-- OSX Window Header -->
+        <div class="title-bar">
+            <div class="window-controls">
+                <div class="win-btn btn-red"></div>
+                <div class="win-btn btn-yellow"></div>
+                <div class="win-btn btn-green"></div>
+            </div>
+            <div class="window-title">OSXDaily — bash — 80x24</div>
+        </div>
+
+        <!-- Tab Bar -->
+        <div class="tabs-bar">
+            <div class="mac-tab">Terminal</div>
+            <div class="mac-tab active">bash</div>
+            <div class="mac-tab">zsh</div>
+        </div>
+
+        <!-- Main Terminal Area -->
+        <div class="terminal-screen" id="terminal">
+
+            <!-- INITIAL SCROLL -->
+            <div class="mb-4">
+                Last login: <span id="login-time">Mon Jan 06 01:23:23</span> on ttys001<br>
+                Welcome to bash.
+            </div>
+
+            <!-- HOME SECTION / DIRECTORY LISTING -->
+            <div id="section-home" class="term-section active">
+                <div class="prompt-line">
+                    <span class="user">admin@aastha</span>:<span class="path">~/portfolio</span>$ ls -la
+                </div>
+
+                <div class="ls-table mt-2">
+                    <div class="ls-row"><span class="ls-perm">drwxr-xr-x</span> <span class="ls-size">4096</span> <span
+                            class="ls-date">Jan 01</span> <span class="ls-name"><a href="#"
+                                onclick="runCommand('cat about.txt'); return false;"
+                                class="file-link">about.txt</a></span></div>
+                    <div class="ls-row"><span class="ls-perm">drwxr-xr-x</span> <span class="ls-size"> 4</span> <span
+                            class="ls-date">Jan 02</span> <span class="ls-name"><a href="#"
+                                onclick="runCommand('cd projects'); return false;" class="dir-link">projects/</a></span>
+                    </div>
+                    <div class="ls-row"><span class="ls-perm">drwxr-xr-x</span> <span class="ls-size"> 3</span> <span
+                            class="ls-date">Jan 03</span> <span class="ls-name"><a href="#"
+                                onclick="runCommand('cd experience'); return false;"
+                                class="dir-link">experience/</a></span></div>
+                    <div class="ls-row"><span class="ls-perm">-rwxr-xr-x</span> <span class="ls-size"> 520</span> <span
+                            class="ls-date">Jan 04</span> <span class="ls-name"><a href="#"
+                                onclick="runCommand('./contact.sh'); return false;"
+                                class="exec-link">contact.sh*</a></span></div>
+                    <div class="ls-row"><span class="ls-perm">-rw-r--r--</span> <span class="ls-size">2048</span> <span
+                            class="ls-date">Jan 05</span> <span class="ls-name"><a href="#"
+                                onclick="runCommand('cat skills.md'); return false;"
+                                class="file-link">skills.md</a></span></div>
+                </div>
+            </div>
+
+            <!-- ABOUT OUTPUT -->
+            <div id="section-about" class="term-section">
+                <div class="prompt-line">
+                    <span class="user">admin@aastha</span>:<span class="path">~/portfolio</span>$ cat about.txt
+                </div>
+                <div class="mb-6 p-2 text-gray-300">
+                    Hi, I'm Aastha Pala.<br>
+                    Cyber Security Specialist | Threat Hunter<br><br>
+                    I bridge the gap between software development and security operations.
+                    Passionate about Zero Trust Architecture and Cryptography.
+                </div>
+            </div>
+
+            <!-- PROJECTS OUTPUT -->
+            <div id="section-projects" class="term-section">
+                <div class="prompt-line">
+                    <span class="user">admin@aastha</span>:<span class="path">~/portfolio</span>$ cd projects && ls
+                </div>
+                <div class="ls-output mb-6 text-cyan-300">
+                    <div class="mb-2">
+                        <span class="text-green-400">./nids-python*</span><br>
+                        <span class="text-gray-400 pl-4"># Network Intrusion Detection System using ML</span>
+                    </div>
+                    <div class="mb-2">
+                        <span class="text-green-400">./chat-encrypted*</span><br>
+                        <span class="text-gray-400 pl-4"># E2E Encrypted Chat App (AES-256)</span>
+                    </div>
+                    <div class="mb-2 text-blue-300">
+                        <a href="#" onclick="runCommand('cd ..'); return false;" class="dir-link">../ (Back)</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEW BOTTOM INPUT LINE -->
+            <div class="prompt-line flex">
+                <span class="user">admin@aastha</span>:<span class="path" id="current-path">~/portfolio</span>$
+                <input type="text" class="command-input ml-2" id="cmd-input" autofocus autocomplete="off">
+                <span class="cursor-block"></span>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Simple mock terminal Logic
+        const cmdInput = document.getElementById('cmd-input');
+        const terminal = document.getElementById('terminal');
+        const pathSpan = document.getElementById('current-path');
+
+        // Auto focus input
+        document.addEventListener('click', () => cmdInput.focus());
+
+        // Enter key handler
+        cmdInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                const cmd = this.value.trim();
+                this.value = ''; // clear
+
+                // Create history line
+                const historyLine = document.createElement('div');
+                historyLine.className = 'prompt-line';
+                historyLine.innerHTML = `<span class="user">admin@aastha</span>:<span class="path">${pathSpan.innerText}</span>$ ${cmd}`;
+
+                // Insert before the input line (which is the last element)
+                terminal.insertBefore(historyLine, terminal.lastElementChild);
+
+                handleCommand(cmd);
+
+                // Scroll to bottom
+                terminal.scrollTop = terminal.scrollHeight;
+            }
+        });
+
+        function runCommand(cmdText) {
+            // Create history line
+            const historyLine = document.createElement('div');
+            historyLine.className = 'prompt-line';
+            historyLine.innerHTML = `<span class="user">admin@aastha</span>:<span class="path">${pathSpan.innerText}</span>$ ${cmdText}`;
+            terminal.insertBefore(historyLine, terminal.lastElementChild);
+
+            handleCommand(cmdText);
+        }
+
+        function handleCommand(cmd) {
+            const outputDiv = document.createElement('div');
+            outputDiv.className = 'mb-4 text-gray-200';
+
+            // Simple router
+            if (cmd === 'ls' || cmd === 'ls -la' || cmd === 'll') {
+                if (pathSpan.innerText.includes('projects')) {
+                    outputDiv.innerHTML = `
+                    <span class="text-green-400">./nids-python*</span><br>
+                    <span class="text-green-400">./chat-encrypted*</span><br>
+                    <span class="text-blue-400">../</span>
+                 `;
+                } else {
+                    // Main dir
+                    outputDiv.innerHTML = document.querySelector('#section-home .ls-table').outerHTML;
+                }
+            }
+            else if (cmd === 'cat about.txt') {
+                outputDiv.innerHTML = `
+                Hi, I'm Aastha Pala.<br>
+                Cyber Security Specialist | Threat Hunter<br>
+                <span class="text-gray-400">bridge(dev, ops) -> security;</span>
+            `;
+            }
+            else if (cmd === 'cd projects') {
+                pathSpan.innerText = '~/portfolio/projects';
+                outputDiv.innerHTML = '';
+            }
+            else if (cmd === 'cd ..') {
+                pathSpan.innerText = '~/portfolio';
+                outputDiv.innerHTML = '';
+            }
+            else if (cmd === './contact.sh') {
+                outputDiv.innerHTML = `
+                Initializing mail protocols...<br>
+                <span class="text-green-400">Sent to: palaaastha@gmail.com</span><br>
+                <span class="text-blue-400">LinkedIn: linkedin.com/in/aastha-pala</span>
+            `;
+            }
+            else if (cmd === 'cat skills.md') {
+                outputDiv.innerHTML = `
+                # SKILLS<br>
+                - Penetration Testing<br>
+                - Network Security<br>
+                - Python, C, C++<br>
+                - Linux (Kali, Ubuntu)
+            `;
+            }
+            else if (cmd === 'clear') {
+                // Remove everything except the last element (input)
+                while (terminal.children.length > 2) { // Keep initial login message? Nah, clear all
+                    if (terminal.firstChild !== terminal.lastElementChild) {
+                        terminal.removeChild(terminal.firstChild);
+                    } else break;
+                }
+                return; // Don't append output
+            }
+            else if (cmd === '') { }
+            else {
+                outputDiv.innerHTML = `bash: ${cmd}: command not found`;
+            }
+
+            // Insert output before input line
+            terminal.insertBefore(outputDiv, terminal.lastElementChild);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        // Set Date
+        document.getElementById('login-time').innerText = new Date().toString().slice(0, 24);
+    </script>
+</body>
+
+</html>
