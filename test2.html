@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aastha Pala - Terminal Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- AOS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <!-- Font Awesome for Icons (simulating the nerd fonts) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* TOKYO NIGHT / POWERLINE THEME */
+        :root {
+            /* Backgrounds */
+            --bg-body: #1a1b26;
+            /* Deep visual studio code / terminal bg */
+            --bg-terminal: #24283b;
+            --bg-selection: #364A82;
+
+            /* Text */
+            --text-main: #a9b1d6;
+            --text-bright: #c0caf5;
+            --text-comment: #565f89;
+
+            /* Powerline Colors */
+            --pl-yellow: #e0af68;
+            --pl-orange: #ff9e64;
+            --pl-blue: #7aa2f7;
+            --pl-green: #9ece6a;
+            --pl-purple: #bb9af7;
+            --pl-cyan: #7dcfff;
+            --pl-red: #f7768e;
+
+            /* UI */
+            --border: #414868;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* --- TERMINAL WINDOW --- */
+        .terminal-window {
+            width: 100%;
+            max-width: 1200px;
+            background-color: var(--bg-terminal);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border: 1px solid #1f2335;
+            min-height: 90vh;
+            /* Make it feel like a full app */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Traffic Lights Header */
+        .terminal-header {
+            background-color: #1f2335;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #16161e;
+        }
+
+        .network-status {
+            margin-left: auto;
+            /* Push to right */
+            font-size: 0.8rem;
+            color: var(--text-comment);
+        }
+
+        .traffic-lights {
+            display: flex;
+            gap: 8px;
+        }
+
+        .traffic-light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .close {
+            background-color: #ff5f56;
+        }
+
+        .minimize {
+            background-color: #ffbd2e;
+        }
+
+        .maximize {
+            background-color: #27c93f;
+        }
+
+        /* Terminal Body */
+        .terminal-body {
+            padding: 30px;
+            overflow-y: auto;
+            flex: 1;
+            /* Scrollbar styling */
+            scrollbar-width: thin;
+            scrollbar-color: var(--bg-selection) var(--bg-terminal);
+        }
+
+        .terminal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .terminal-body::-webkit-scrollbar-track {
+            background: var(--bg-terminal);
+        }
+
+        .terminal-body::-webkit-scrollbar-thumb {
+            background-color: var(--bg-selection);
+            border-radius: 4px;
+        }
+
+        /* --- POWERLINE PROMPT CSS --- */
+        .powerline-prompt {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            /* Slightly compact */
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 0;
+            /* No gap precisely for arrows */
+        }
+
+        .pl-segment {
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #1a1b26;
+            /* Dark text on bright segments */
+            position: relative;
+            height: 32px;
+        }
+
+        /* CSS Triangles / Arrows */
+        .pl-segment {
+            padding-right: 20px;
+            /* Space for arrow text */
+            margin-right: -10px;
+            /* Overlap for the fake arrow */
+            z-index: 10;
+        }
+
+        /* We'll use a clip-path approach for cleaner arrows than borders */
+        .pl-segment {
+            clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%, 12px 50%);
+            padding-left: 20px;
+            /* Compensate for left indent */
+            margin-left: -12px;
+            /* Pull back to overlap */
+        }
+
+        /* First segment needs no left cut */
+        .pl-segment:first-child {
+            clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
+            padding-left: 12px;
+            margin-left: 0;
+            z-index: 20;
+        }
+
+        .pl-segment:nth-child(2) {
+            z-index: 19;
+        }
+
+        .pl-segment:nth-child(3) {
+            z-index: 18;
+        }
+
+        .pl-segment:nth-child(4) {
+            z-index: 17;
+        }
+
+        /* Colors */
+        .pl-user {
+            background-color: var(--pl-yellow);
+        }
+
+        .pl-dir {
+            background-color: var(--pl-orange);
+        }
+
+        .pl-git {
+            background-color: var(--pl-green);
+        }
+
+        .pl-cmd {
+            background: transparent;
+            color: var(--text-bright);
+            padding-left: 25px;
+            z-index: 1;
+            align-self: center;
+        }
+
+        /* Blinking Cursor */
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2em;
+            background-color: var(--text-main);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 8px;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* COMMAND OUTPUT SECTION STYLES */
+        .cmd-output {
+            margin-left: 10px;
+            padding-left: 10px;
+            border-left: 2px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        .cmd-timestamp {
+            color: var(--text-comment);
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Typography Override */
+        h1,
+        h2,
+        h3 {
+            color: var(--text-bright);
+        }
+
+        p,
+        li {
+            color: var(--text-main);
+        }
+
+        a {
+            color: var(--pl-cyan);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--pl-cyan);
+        }
+
+        a:hover {
+            background-color: rgba(125, 207, 255, 0.1);
+        }
+
+        /* Custom Card for Projects */
+        .terminal-card {
+            background-color: #1a1b26;
+            /* Darker than body */
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .terminal-card:hover {
+            border-color: var(--pl-purple);
+            transform: translateX(5px);
+        }
+
+        /* Skills Tags */
+        .tech-tag {
+            color: var(--pl-cyan);
+            background: rgba(125, 207, 255, 0.1);
+            padding: 2px 8px;
+            font-size: 0.85rem;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            display: inline-block;
+        }
+
+        /* Navbar (Fake tab bar) */
+        .nav-tabs {
+            display: flex;
+            background: #16161e;
+            padding: 0 10px;
+        }
+
+        .nav-tab {
+            padding: 8px 16px;
+            color: var(--text-comment);
+            cursor: pointer;
+            border-top: 2px solid transparent;
+            font-size: 0.9rem;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-main);
+            background: #1f2335;
+        }
+
+        .nav-tab.active {
+            color: var(--pl-blue);
+            background: var(--bg-terminal);
+            border-top-color: var(--pl-blue);
+        }
+
+        /* Utility */
+        .text-green {
+            color: var(--pl-green);
+        }
+
+        .text-blue {
+            color: var(--pl-blue);
+        }
+
+        .text-yellow {
+            color: var(--pl-yellow);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="terminal-window" data-aos="zoom-in" data-aos-duration="600">
+        <!-- Window Controls Header -->
+        <div class="terminal-header">
+            <div class="traffic-lights">
+                <div class="traffic-light close"></div>
+                <div class="traffic-light minimize"></div>
+                <div class="traffic-light maximize"></div>
+            </div>
+            <div class="ml-4 text-xs text-gray-500 font-mono">user@aastha-pala: ~/portfolio</div>
+            <div class="network-status">
+                <i class="fas fa-wifi"></i> SSH: Connected
+            </div>
+        </div>
+
+        <!-- Fake Nav Tabs -->
+        <div class="nav-tabs">
+            <a href="#home" class="nav-tab active">main.sh</a>
+            <a href="#projects" class="nav-tab">projects.json</a>
+            <a href="#experience" class="nav-tab">experience.log</a>
+            <a href="#contact" class="nav-tab">contact_me.py</a>
+        </div>
+
+        <!-- Terminal Content -->
+        <div class="terminal-body">
+
+            <!-- Hero Section (The Prompt) -->
+            <section id="home" class="mb-12">
+                <!-- Powerline Prompt -->
+                <div class="powerline-prompt">
+                    <div class="pl-segment pl-user">
+                        <i class="fas fa-user-circle"></i> aastha
+                    </div>
+                    <div class="pl-segment pl-dir">
+                        <i class="fas fa-folder-open"></i> ~/cyber-security
+                    </div>
+                    <div class="pl-segment pl-git">
+                        <i class="fas fa-code-branch"></i> git:main
+                    </div>
+                    <div class="pl-cmd text-lg">
+                        ./init_profile.sh <span class="cursor"></span>
+                    </div>
+                </div>
+
+                <div class="cmd-output animate__animated animate__fadeIn">
+                    <span class="cmd-timestamp">[20:42:15] Executing init sequence...</span>
+                    <!-- ASCII Art or Big Text -->
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4 mt-4 text-blue-400">
+                        Hello, I'm <span style="color: var(--pl-red);">Aastha Pala</span>
+                    </h1>
+                    <p class="text-xl mb-6 max-w-2xl typing-effect">
+                        > Cyber Security Specialist<br>
+                        > Computer Science Engineer<br>
+                        > Threat Hunter
+                    </p>
+
+                    <div
+                        class="mt-6 p-4 rounded border border-gray-700 bg-opacity-30 bg-gray-800 font-mono text-sm max-w-xl">
+                        <p class="text-green-400 mb-2">$ cat bio.txt</p>
+                        <p class="leading-relaxed text-gray-300">
+                            I help organizations secure their digital assets through proactive threat hunting and robust
+                            security architecture.
+                            Bridging the gap between dev and ops.
+                        </p>
+                    </div>
+
+                    <div class="mt-8 flex gap-4">
+                        <a href="#contact"
+                            class="px-5 py-2 bg-blue-600 text-white hover:bg-blue-700 border-none no-underline rounded-sm transition-colors">
+                            <i class="fas fa-envelope"></i> Contact Me
+                        </a>
+                        <a href="#"
+                            class="px-5 py-2 border border-blue-500 text-blue-400 hover:bg-blue-900 hover:bg-opacity-20 no-underline rounded-sm transition-colors">
+                            <i class="fas fa-download"></i> Download CV
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="mb-16">
+                <!-- Inner Prompt for new command -->
+                <div class="powerline-prompt mb-4">
+                    <div class="pl-segment pl-user">
+                        <i class="fas fa-laptop-code"></i> projects
+                    </div>
+                    <div class="pl-segment pl-dir">
+                        <i class="fas fa-list"></i> list-all
+                    </div>
+                    <div class="pl-cmd">
+                        cat featured_projects.json
+                    </div>
+                </div>
+
+                <div class="cmd-output grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Project 1 -->
+                    <div class="terminal-card">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-bold text-yellow-500">Network Intrusion Detection System</h3>
+                            <span
+                                class="text-xs border border-green-500 text-green-500 px-2 py-0.5 rounded">PUBLIC</span>
+                        </div>
+                        <p class="text-sm mb-4 text-gray-400">
+                            Built a custom NIDS using Python and ML libraries. Features automatic IP blocking and
+                            heuristic analysis.
+                        </p>
+                        <div class="flex flex-wrap">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Scikit-Learn</span>
+                            <span class="tech-tag">TCP/IP</span>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="terminal-card">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-bold text-yellow-500">Encrypted Chat App</h3>
+                            <span
+                                class="text-xs border border-green-500 text-green-500 px-2 py-0.5 rounded">v2.0.1</span>
+                        </div>
+                        <p class="text-sm mb-4 text-gray-400">
+                            End-to-end encrypted messaging application using AES-256. Zero-knowledge architecture.
+                        </p>
+                        <div class="flex flex-wrap">
+                            <span class="tech-tag">Java</span>
+                            <span class="tech-tag">Cryptography</span>
+                            <span class="tech-tag">Socket.io</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Experience Section -->
+            <section id="experience" class="mb-16">
+                <div class="powerline-prompt mb-4">
+                    <div class="pl-segment pl-user" style="background-color: var(--pl-purple);">
+                        <i class="fas fa-briefcase"></i> experience
+                    </div>
+                    <div class="pl-segment pl-dir" style="background-color: var(--pl-blue);">
+                        <i class="fas fa-history"></i> --verbose
+                    </div>
+                </div>
+
+                <div class="cmd-output">
+                    <div class="mb-8 border-l-2 border-gray-700 pl-4 ml-2">
+                        <p class="text-sm text-gray-500">2024 - PRESENT</p>
+                        <h3 class="text-lg font-bold text-blue-400">Cyber Security Intern @ Tech Solutions</h3>
+                        <ul class="list-none mt-2 space-y-1 text-sm">
+                            <li><span class="text-green-500">➜</span> Conducted vulnerability assessments using Burp
+                                Suite.</li>
+                            <li><span class="text-green-500">➜</span> Patched high-severity XSS vulnerabilities.</li>
+                            <li><span class="text-green-500">➜</span> Monitored SIEM logs for anomalies.</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-8 border-l-2 border-gray-700 pl-4 ml-2">
+                        <p class="text-sm text-gray-500">2021 - 2025</p>
+                        <h3 class="text-lg font-bold text-blue-400">CS Student @ University</h3>
+                        <ul class="list-none mt-2 space-y-1 text-sm">
+                            <li><span class="text-green-500">➜</span> Lead of InfoSec Club.</li>
+                            <li><span class="text-green-500">➜</span> Organized annual CTF.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Honors Section -->
+            <section id="honors" class="mb-16">
+                <div class="powerline-prompt mb-4">
+                    <div class="pl-segment pl-user" style="background-color: var(--pl-red);">
+                        <i class="fas fa-trophy"></i> honors
+                    </div>
+                    <div class="pl-segment pl-dir" style="background-color: var(--pl-orange);">
+                        <i class="fas fa-star"></i> achievements
+                    </div>
+                </div>
+
+                <div class="cmd-output grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="terminal-card text-center">
+                        <i class="fas fa-medal text-3xl text-yellow-500 mb-3 block"></i>
+                        <h4 class="font-bold text-white">1st Place</h4>
+                        <p class="text-xs text-gray-500">National Cyber Defense Hackathon</p>
+                    </div>
+                    <div class="terminal-card text-center">
+                        <i class="fas fa-microphone text-3xl text-purple-500 mb-3 block"></i>
+                        <h4 class="font-bold text-white">Speaker</h4>
+                        <p class="text-xs text-gray-500">Zero Trust Security Lecture</p>
+                    </div>
+                    <div class="terminal-card text-center">
+                        <i class="fas fa-certificate text-3xl text-blue-500 mb-3 block"></i>
+                        <h4 class="font-bold text-white">CEH Master</h4>
+                        <p class="text-xs text-gray-500">Certified Ethical Hacker</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        <!-- End Terminal Body -->
+    </div>
+
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
+
+        // Simple Smooth Scroll for the fake tabs
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                // Active tab toggle
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>
