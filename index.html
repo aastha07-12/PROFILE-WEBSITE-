@@ -1,23 +1,90 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Aastha Pala - Computer Science Engineer </title>
+    <title>Aastha Pala - Cyber Security Specialist</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lora:wght@400;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;700&family=Lora:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <!-- AOS (Animate on Scroll) Library for animations -->
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
     <style>
+        /* Animation for the scrolling banner */
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .animate-scroll {
+            display: inline-block;
+            padding-left: 10%;
+            /* Push text off screen initially */
+            animation: scroll-left 25s linear infinite;
+        }
+
+        /* Pause animation on hover so people can click the link */
+        .animate-scroll:hover {
+            animation-play-state: paused;
+        }
+
         /* Define custom properties for your color palette */
+        /* CYBER SECURITY THEME: Green/Cyan accents, Dark Techy backgrounds */
         :root {
-            --bg-primary: #F2F4FF;
-            --text-primary: #1F1F1F;
-            --text-secondary: #A78682;
-            --accent: #4c2747;
-            --accent-light: #E1D9E7;
+            /* Light mode colors */
+            --bg-primary: #F0F4F8;
+            /* Light blue-grey */
+            --text-primary: #0f172a;
+            --text-secondary: #0f172acc;
+            --accent: #0284c7;
+            /* Sky Blue 600 */
+            --accent-light: #e0f2fe;
+            /* Sky Blue 100 */
+            --bg-white: #ffffff;
+            --bg-section: #f8fafc;
+            --border-color: #e2e8f0;
+            --header-bg: rgba(255, 255, 255, 0.9);
+            --card-bg: #ffffff;
+            --divider-color: #cbd5e1;
+            --banner-bg: #e0f2fe;
+            --banner-border: #bae6fd;
+        }
+
+        /* Dark mode colors - Cyberpunk/Matrix vibe but professional */
+        [data-theme="dark"] {
+            --bg-primary: #020617;
+            /* Slate 950 */
+            --text-primary: #f8fafc;
+            /* Slate 50 */
+            --text-secondary: #94a3b8;
+            /* Slate 400 */
+            --accent: #22d3ee;
+            /* Cyan 400 */
+            --accent-light: #164e63;
+            /* Cyan 900 */
+            --bg-white: #0f172a;
+            /* Slate 900 */
+            --bg-section: #1e293b;
+            /* Slate 800 */
+            --border-color: #334155;
+            /* Slate 700 */
+            --header-bg: rgba(2, 6, 23, 0.85);
+            /* Slate 950 alpha */
+            --card-bg: #1e293b;
+            /* Slate 800 */
+            --divider-color: #334155;
+            --banner-bg: #1e293b;
+            --banner-border: #334155;
         }
 
         body {
@@ -25,267 +92,605 @@
             color: var(--text-primary);
             font-family: 'Inter', sans-serif;
             line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Apply the serif font for headings */
-        h1, h2, h3, h4, h5, h6 {
+        /* Use monospace for techy headings if desired, otherwise Serif */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-family: 'Lora', serif;
+            /* Kept serif for elegance, or switch to JetBrains Mono for 'Hackera' vibe */
             color: var(--text-primary);
+            letter-spacing: -0.02em;
         }
-        
+
+        /* Optional: Make H1 monospace for cyber feel */
+        .cyber-font {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        h1 {
+            letter-spacing: -0.03em;
+        }
+
         /* Custom accent color classes */
-        .accent-text { color: var(--accent); }
-        .accent-bg { background-color: var(--accent); }
-        .hover\:accent-text:hover { color: var(--accent); }
-        .border-accent { border-color: var(--accent); }
-        
+        .accent-text {
+            color: var(--accent);
+        }
+
+        .accent-bg {
+            background-color: var(--accent);
+        }
+
+        .hover\:accent-text:hover {
+            color: var(--accent);
+        }
+
+        .border-accent {
+            border-color: var(--accent);
+        }
+
         /* Thin, light gray divider style */
         .divider {
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid var(--divider-color);
             margin-top: 1.5rem;
             margin-bottom: 1.5rem;
+            transition: border-color 0.3s ease;
         }
 
         /* Custom styles for the secondary button */
         .btn-secondary {
             border: 2px solid var(--accent);
             color: var(--accent);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .btn-secondary:hover {
             background-color: var(--accent);
             color: white;
+            /* Or black if accent is bright */
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(34, 211, 238, 0.2);
+            /* Cyan glow */
+        }
+
+        [data-theme="dark"] .btn-secondary:hover {
+            color: #0f172a;
+            /* Dark text on bright cyan hover */
+        }
+
+        /* Premium shadow utilities */
+        .shadow-premium {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        .shadow-premium-hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 12px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Card hover effect */
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
+            border-color: var(--accent);
+        }
+
+        /* Image overlay on hover */
+        .image-overlay {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(34, 211, 238, 0);
+            /* Cyan tint */
+            transition: background 0.3s ease;
+            pointer-events: none;
+        }
+
+        .image-overlay:hover::after {
+            background: rgba(34, 211, 238, 0.1);
+            /* Subtle cyber tint */
+        }
+
+        /* Dark mode toggle button */
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+            margin-left: 1rem;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-light);
+            border-color: var(--accent);
+            transform: scale(1.05);
+            color: var(--accent);
+        }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            color: var(--accent);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        /* Smooth transitions for theme changes */
+        * {
+            transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
         }
     </style>
 </head>
-<body class="antialiased"> 
 
-
-<header class="bg-white/80 backdrop-blur-md shadow-sm fixed w-full z-20">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold">
-                <a href="#home" class="font-serif"> AP </a>
+<body class="antialiased">
+    <div class="fixed top-0 w-full z-50 flex flex-col">
+        <!-- Announcements / Cyber News Ticker -->
+        <div class="overflow-hidden py-2 w-full shadow-sm border-b"
+            style="background-color: var(--banner-bg); border-color: var(--banner-border);">
+            <div class="whitespace-nowrap overflow-hidden">
+                <a href="#projects"
+                    class="animate-scroll text-sm font-medium accent-text hover:text-gray-900 transition-colors cyber-font">
+                    🔐 Latest: Implemented Zero Trust Architecture for Cloud Project &nbsp;&nbsp; • &nbsp;&nbsp;
+                    🛡️ Certification: Completed Certified Ethical Hacker (CEH) Course &nbsp;&nbsp; • &nbsp;&nbsp;
+                    Click to view details
+                </a>
             </div>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#about" class="text-sm font-medium text-gray-600 hover:accent-text transition duration-300">About</a>
-                <a href="#projects" class="text-sm font-medium text-gray-600 hover:accent-text transition duration-300">Projects</a>
-                <a href="#experience" class="text-sm font-medium text-gray-600 hover:accent-text transition duration-300">Experience</a>
-                <a href="#skills" class="text-sm font-medium text-gray-600 hover:accent-text transition duration-300">Skills</a>
-                <a href="#designs" class="text-sm font-medium text-gray-600 hover:accent-text transition duration-300">Gallery</a>
-                <a href="#contact" class="text-sm font-medium text-white accent-bg py-2 px-4 rounded-md hover:opacity-90 transition duration-300">Contact</a>
-            </div>
-            <div class="md:hidden">
-                <button id="menu-btn" class="text-gray-700 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                </button>
-            </div>
-        </nav>
-        <div id="mobile-menu" class="hidden md:hidden bg-white">
-            <a href="#about" class="block py-3 px-6 text-sm text-gray-700 hover:bg-gray-50">About</a>
-            <a href="#projects" class="block py-3 px-6 text-sm text-gray-700 hover:bg-gray-50">Projects</a>
-            <a href="#experience" class="block py-3 px-6 text-sm text-gray-700 hover:bg-gray-50">Experience</a>
-            <a href="#skills" class="block py-3 px-6 text-sm text-gray-700 hover:bg-gray-50">Skills</a>
-            <a href="#designs" class="block py-3 px-6 text-sm text-gray-700 hover:bg-gray-50">Gallery</a>
-            <a href="#contact" class="block py-3 px-6 text-sm text-gray-700 hover:bg-gray-50">Contact</a>
         </div>
-    </header>
+
+        <!-- Header -->
+        <header class="backdrop-blur-lg shadow-sm w-full border-b"
+            style="background-color: var(--header-bg); border-color: var(--border-color);">
+            <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <div class="text-2xl font-bold">
+                    <a href="#home"
+                        class="font-serif tracking-tight hover:opacity-80 transition-opacity duration-200">AP</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="text-sm font-medium hover:accent-text transition-colors duration-200"
+                        style="color: var(--text-secondary);">About</a>
+                    <a href="#projects" class="text-sm font-medium hover:accent-text transition-colors duration-200"
+                        style="color: var(--text-secondary);">Projects</a>
+                    <a href="#experience" class="text-sm font-medium hover:accent-text transition-colors duration-200"
+                        style="color: var(--text-secondary);">Experience</a>
+                    <a href="#honors" class="text-sm font-medium hover:accent-text transition-colors duration-200"
+                        style="color: var(--text-secondary);">Honors</a>
+                    <a href="#skills" class="text-sm font-medium hover:accent-text transition-colors duration-200"
+                        style="color: var(--text-secondary);">Skills</a>
+                    <!-- Removed honors link as it might not be populated yet, can add back if requested -->
+
+                    <a href="#contact"
+                        class="text-sm font-medium text-white accent-bg py-2.5 px-5 rounded-lg hover:opacity-90 transition-all duration-200 shadow-sm hover:shadow-md">Contact</a>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                        <svg id="sun-icon" class="hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                            </path>
+                        </svg>
+                        <svg id="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="md:hidden flex items-center gap-2">
+                    <button id="theme-toggle-mobile" class="theme-toggle" aria-label="Toggle dark mode">
+                        <svg id="sun-icon-mobile" class="hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                            </path>
+                        </svg>
+                        <svg id="moon-icon-mobile" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button id="menu-btn" class="focus:outline-none" style="color: var(--text-primary);">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden" style="background-color: var(--card-bg);">
+                <a href="#about" class="block py-3 px-6 text-sm hover:opacity-80 transition-opacity"
+                    style="color: var(--text-primary);">About</a>
+                <a href="#projects" class="block py-3 px-6 text-sm hover:opacity-80 transition-opacity"
+                    style="color: var(--text-primary);">Projects</a>
+                <a href="#experience" class="block py-3 px-6 text-sm hover:opacity-80 transition-opacity"
+                    style="color: var(--text-primary);">Experience</a>
+                <a href="#honors" class="block py-3 px-6 text-sm hover:opacity-80 transition-opacity"
+                    style="color: var(--text-primary);">Honors</a>
+                <a href="#skills" class="block py-3 px-6 text-sm hover:opacity-80 transition-opacity"
+                    style="color: var(--text-primary);">Skills</a>
+                <a href="#contact" class="block py-3 px-6 text-sm hover:opacity-80 transition-opacity"
+                    style="color: var(--text-primary);">Contact</a>
+            </div>
+        </header>
+    </div>
 
     <main>
-        <section id="home" class="min-h-screen flex items-center pt-24 pb-16">
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen flex items-center pt-32 pb-16">
             <div class="container mx-auto px-6">
                 <div class="max-w-3xl" data-aos="fade-up">
-                    <h1 class="text-4xl md:text-6xl font-bold mb-4"> Aastha Pala </h1>
-                    <p class="text-xl md:text-2xl mb-8" style="color: var(--text-secondary);"> Computer Science Engineer | Cyber Security Specialist </p>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4">Aastha Pala</h1>
+                    <p class="text-xl md:text-2xl mb-8 cyber-font" style="color: var(--text-secondary);">Cyber Security
+                        Specialist | Computer Science Engineer</p>
                     <p class="max-w-2xl mb-10" style="color: var(--text-secondary);">
-                        Highly skilled Computer Science Engineer and cybersecurity specialist with a passion for designing and implementing robust security solutions. I'm experienced in protecting critical systems and am dedicated to building resilient defenses against modern cyber threats.
+                        Highly skilled Computer Science Engineer and cybersecurity specialist with a passion for
+                        designing and implementing robust security solutions. I'm experienced in protecting critical
+                        systems and am dedicated to building resilient defenses against modern cyber threats.
                     </p>
                     <div class="flex flex-wrap gap-4">
-                        <a href="#contact" class="text-base font-medium text-white accent-bg py-3 px-6 rounded-lg hover:opacity-90 transition duration-300 shadow-lg">
+                        <a href="#contact"
+                            class="text-base font-medium text-white accent-bg py-3 px-7 rounded-lg hover:opacity-90 transition-all duration-300 shadow-premium hover:shadow-premium-hover hover:-translate-y-0.5">
                             Get In Touch
                         </a>
-                        <a href="#" target="_blank" rel="noopener noreferrer" class="text-base font-medium py-3 px-6 rounded-lg btn-secondary shadow-lg">
+                        <!-- USER ACTION: Replace '#' with the path to your resume PDF -->
+                        <a href="#" target="_blank" rel="noopener noreferrer"
+                            class="text-base font-medium py-3 px-7 rounded-lg btn-secondary shadow-premium">
                             Download Resume
                         </a>
                     </div>
                 </div>
             </div>
-        </section>   
+        </section>
 
-
+        <!-- About Section -->
         <section id="about" class="py-24">
             <div class="container mx-auto px-6" data-aos="fade-up">
                 <div class="max-w-4xl mx-auto text-center">
-                    <h2 class="text-3xl md:text-4xl font-semibold mb-6">About Me</h2>
+                    <h2 class="text-3xl md:text-4xl font-semibold mb-6 tracking-tight">About Me</h2>
                     <div class="divider max-w-xs mx-auto"></div>
-                    <p class="text-lg" style="color: var(--text-secondary);">
-                        Share more about your journey here. Talk about your background, what drives your passion for your field, and your professional values. You can mention your preferred work environment, your approach to problem-solving, and the kind of impact you aim to make.
+                    <p class="text-lg leading-relaxed" style="color: var(--text-secondary);">
+                        I help organizations secure their digital assets through proactive threat hunting and robust
+                        security architecture. With a strong foundation in Computer Science, I bridge the gap between
+                        software development and security operations, ensuring that applications are secure by design.
                     </p>
                 </div>
             </div>
         </section>
-        
-        <section id="projects" class="py-24 bg-white">
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-24" style="background-color: var(--bg-white);">
             <div class="container mx-auto px-6" data-aos="fade-up">
-                <h2 class="text-3xl md:text-4xl font-semibold text-center mb-12">Featured Projects</h2>
+                <h2 class="text-3xl md:text-4xl font-semibold text-center mb-12 tracking-tight">Featured Projects</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                    <div class="bg-gray-50 rounded-lg shadow-md overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
-                        <img src="https://static.vecteezy.com/system/resources/previews/022/653/949/large_2x/cyber-security-concept-with-padlock-on-blue-background-3d-rendering-generative-ai-free-photo.jpg" alt="Project 1" class="w-full h-64 object-cover">
+
+                    <!-- Project 1 -->
+                    <a href="#" class="block rounded-xl shadow-premium overflow-hidden card-hover border"
+                        style="background-color: var(--card-bg); border-color: var(--border-color);">
+                        <!-- Placeholder Image -->
+                        <div class="image-overlay">
+                            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800"
+                                alt="Cyber Security Project" class="w-full h-64 object-cover">
+                        </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Project Title 1</h3>
-                            <p class="text-sm mb-4" style="color: var(--text-secondary);">Briefly describe your project here. Mention the key challenge, the solution you developed, and the outcome or impact it had.</p>
+                            <h3 class="text-xl font-bold mb-2 tracking-tight">Network Intrusion Detection System</h3>
+                            <p class="text-sm mb-4 leading-relaxed" style="color: var(--text-secondary);">
+                                Built a custom NIDS using Python and machine learning libraries to detect anomalous
+                                traffic patterns in real-time. Features include automatic IP blocking and alert
+                                generation.
+                            </p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background-color: var(--accent-light); color: var(--accent);">Skill 1</span>
-                                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background-color: var(--accent-light); color: var(--accent);">Skill 2</span>
-                                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background-color: var(--accent-light); color: var(--accent);">Skill 3</span>
+                                <span class="text-xs font-semibold px-3 py-1.5 rounded-full"
+                                    style="background-color: var(--accent-light); color: var(--accent);">Python</span>
+                                <span class="text-xs font-semibold px-3 py-1.5 rounded-full"
+                                    style="background-color: var(--accent-light); color: var(--accent);">Machine
+                                    Learning</span>
+                                <span class="text-xs font-semibold px-3 py-1.5 rounded-full"
+                                    style="background-color: var(--accent-light); color: var(--accent);">Networking</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="bg-gray-50 rounded-lg shadow-md overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
-                        <img src="https://cdn.pixabay.com/photo/2019/11/08/10/34/cyber-4610993_1280.jpg" alt="Project 2" class="w-full h-64 object-cover">
+                    </a>
+
+                    <!-- Project 2 -->
+                    <a href="#" class="block rounded-xl shadow-premium overflow-hidden card-hover border"
+                        style="background-color: var(--card-bg); border-color: var(--border-color);">
+                        <div class="image-overlay">
+                            <img src="https://images.unsplash.com/photo-1563206767-5b1d972e9fb9?auto=format&fit=crop&q=80&w=800"
+                                alt="Encrypted Chat App" class="w-full h-64 object-cover">
+                        </div>
                         <div class="p-6">
-                             <h3 class="text-xl font-bold mb-2">Project Title 2</h3>
-                            <p class="text-sm mb-4" style="color: var(--text-secondary);">Briefly describe your project here. Mention the key challenge, the solution you developed, and the outcome or impact it had.</p>
+                            <h3 class="text-xl font-bold mb-2 tracking-tight">End-to-End Encrypted Chat</h3>
+                            <p class="text-sm mb-4 leading-relaxed" style="color: var(--text-secondary);">
+                                Designed and implemented a secure messaging application using AES-256 encryption.
+                                Ensures complete privacy with zero-knowledge architecture.
+                            </p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background-color: var(--accent-light); color: var(--accent);">Tech 1</span>
-                                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background-color: var(--accent-light); color: var(--accent);">Tech 2</span>
-                                <span class="text-xs font-semibold px-2 py-1 rounded-full" style="background-color: var(--accent-light); color: var(--accent);">Methodology</span>
+                                <span class="text-xs font-semibold px-3 py-1.5 rounded-full"
+                                    style="background-color: var(--accent-light); color: var(--accent);">Cryptography</span>
+                                <span class="text-xs font-semibold px-3 py-1.5 rounded-full"
+                                    style="background-color: var(--accent-light); color: var(--accent);">Java</span>
+                                <span class="text-xs font-semibold px-3 py-1.5 rounded-full"
+                                    style="background-color: var(--accent-light); color: var(--accent);">Security</span>
                             </div>
                         </div>
-                    </div>  
-                    
+                    </a>
+
                 </div>
             </div>
-        </section> 
+        </section>
 
-
-
-        <section id="experience" class="py-24" style="background-color: #fdfdfd;">
+        <!-- Experience Section -->
+        <section id="experience" class="py-24" style="background-color: var(--bg-section);">
             <div class="container mx-auto px-6" data-aos="fade-up">
-                <h2 class="text-3xl md:text-4xl font-semibold text-center mb-12">Professional Experience</h2>
+                <h2 class="text-3xl md:text-4xl font-semibold text-center mb-12 tracking-tight">Professional Experience
+                </h2>
                 <div class="max-w-3xl mx-auto">
+                    <!-- Job 1 -->
                     <div class="mb-12">
                         <div class="flex justify-between items-baseline mb-2">
-                             <h3 class="text-xl font-bold">Job Title</h3>
-                            <p class="text-sm" style="color: var(--text-secondary);"></p>
+                            <h3 class="text-xl font-bold">Cyber Security Intern</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">2024 - Present</p>
                         </div>
-                        <p class="text-md font-medium accent-text mb-3">Company Name</p>
+                        <p class="text-md font-medium accent-text mb-3">Tech Solutions Inc.</p>
                         <ul class="list-disc list-inside text-sm space-y-2" style="color: var(--text-secondary);">
-                            <li>Describe a key responsibility or a significant achievement. Use action verbs.</li>
-                            <li>Quantify your accomplishments whenever possible (e.g., "Increased efficiency by 15%").</li>
-                            <li>Mention another important contribution or skill you developed in this role.</li>
-                            <li>Briefly describe your collaboration with other teams or stakeholders.</li>
-                        </ul>
-                    </div>
-                    <div class="mb-12">
-                        <div class="flex justify-between items-baseline mb-2">
-                             <h3 class="text-xl font-bold">Previous Job Title</h3>
-                            <p class="text-sm" style="color: var(--text-secondary);"></p>
-                        </div>
-                        <p class="text-md font-medium accent-text mb-3">Previous Company Name</p>
-                        <ul class="list-disc list-inside text-sm space-y-2" style="color: var(--text-secondary);">
-                            <li>Describe a key responsibility or a significant achievement.</li>
-                            <li>Mention another important contribution or skill you developed.</li>
-                            <li>Add another point about your role here.</li>
+                            <li>Assisted in conducting vulnerability assessments and penetration testing on web
+                                applications.</li>
+                            <li>Monitored security logs and identified potential incidents using SIEM tools.</li>
+                            <li>Collaborated with the development team to patch security flaws in legacy code.</li>
                         </ul>
                     </div>
 
+                    <!-- Job 2 -->
+                    <div class="mb-12">
+                        <div class="flex justify-between items-baseline mb-2">
+                            <h3 class="text-xl font-bold">Computer Science Student</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">2021 - 2025</p>
+                        </div>
+                        <p class="text-md font-medium accent-text mb-3">University Name</p>
+                        <ul class="list-disc list-inside text-sm space-y-2" style="color: var(--text-secondary);">
+                            <li>Focusing on Network Security, Data Structures, and Operating Systems.</li>
+                            <li>Lead of the University Cyber Security Club.</li>
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </section>
 
-
-
-        <section id="skills" class="py-24 bg-white">
+        <!-- Honors Section -->
+        <section id="honors" class="py-24" style="background-color: var(--bg-white);">
             <div class="container mx-auto px-6" data-aos="fade-up">
-                <h2 class="text-3xl md:text-4xl font-semibold text-center mb-12">Technical Skills</h2>
-                <div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 text-center">
-                    <div class="p-4 transform hover:scale-110 transition-transform duration-300">
-                        <h3 class="text-lg font-semibold">[Skill Name 1]</h3>
-                        <p class="text-sm" style="color: var(--text-secondary);">[Brief Description]</p>
+                <h2 class="text-3xl md:text-4xl font-semibold text-center mb-12 tracking-tight">Honors & Activities</h2>
+
+                <div class="max-w-4xl mx-auto space-y-6">
+
+                    <div class="border-l-4 border-accent pl-6 py-3 rounded-r-lg shadow-sm hover:shadow-premium transition-all duration-300"
+                        style="background-color: var(--card-bg); border-color: var(--accent);">
+                        <span class="text-sm font-bold uppercase tracking-wider"
+                            style="color: var(--accent);">Competition • 2024</span>
+                        <h3 class="text-xl font-bold mt-1.5 tracking-tight">National Cyber Defense Hackathon: 1st Place
+                        </h3>
+                        <p class="mt-2.5 leading-relaxed" style="color: var(--text-secondary);">
+                            Led the university team to victory in a 48-hour intense Capture The Flag (CTF) competition,
+                            solving complex cryptography and reverse engineering challenges.
+                        </p>
                     </div>
-                    <div class="p-4 transform hover:scale-110 transition-transform duration-300">
-                        <h3 class="text-lg font-semibold">[Skill Name 2]</h3>
-                        <p class="text-sm" style="color: var(--text-secondary);">[Brief Description]</p>
+
+                    <div class="border-l-4 pl-6 py-3 rounded-r-lg shadow-sm hover:border-accent hover:shadow-premium transition-all duration-300"
+                        style="background-color: var(--card-bg); border-color: var(--border-color);">
+                        <span class="text-sm font-bold uppercase tracking-wider"
+                            style="color: var(--text-secondary);">Speaker Session • 2024</span>
+                        <h3 class="text-xl font-bold mt-1.5 tracking-tight">Guest Lecture: "Zero Trust Security"</h3>
+                        <p class="mt-2.5 leading-relaxed" style="color: var(--text-secondary);">
+                            Invited to deliver a technical talk on implementing Zero Trust Architecture in modern cloud
+                            environments at the Annual Tech Summit.
+                        </p>
                     </div>
-                    <div class="p-4 transform hover:scale-110 transition-transform duration-300">
-                        <h3 class="text-lg font-semibold">[Skill Name 3]</h3>
-                        <p class="text-sm" style="color: var(--text-secondary);">[Brief Description]</p>
+
+                    <div class="border-l-4 pl-6 py-3 rounded-r-lg shadow-sm hover:border-accent hover:shadow-premium transition-all duration-300"
+                        style="background-color: var(--card-bg); border-color: var(--border-color);">
+                        <span class="text-sm font-bold uppercase tracking-wider"
+                            style="color: var(--text-secondary);">Certification • 2023</span>
+                        <h3 class="text-xl font-bold mt-1.5 tracking-tight">Certified Ethical Hacker (CEH) - Master</h3>
+                        <p class="mt-2.5 leading-relaxed" style="color: var(--text-secondary);">
+                            Achieved the prestigious CEH Master designation by demonstrating advanced proficiency in
+                            ethical hacking methodologies and practical application.
+                        </p>
                     </div>
-                    <div class="p-4 transform hover:scale-110 transition-transform duration-300">
-                        <h3 class="text-lg font-semibold">[Skill Name 4]</h3>
-                        <p class="text-sm" style="color: var(--text-secondary);">[Brief Description]</p>
-                    </div>
-                    <div class="p-4 transform hover:scale-110 transition-transform duration-300">
-                        <h3 class="text-lg font-semibold">[Skill Name 5]</h3>
-                        <p class="text-sm" style="color: var(--text-secondary);">[Brief Description]</p>
-                    </div>
-                    <div class="p-4 transform hover:scale-110 transition-transform duration-300">
-                        <h3 class="text-lg font-semibold">[Skill Name 6]</h3>
-                        <p class="text-sm" style="color: var(--text-secondary);">[Brief Description]</p>
-                    </div>
+
                 </div>
             </div>
         </section>
 
-        <section id="designs" class="py-24" style="background-color: #fdfdfd;">
+        <!-- Skills Section -->
+        <section id="skills" class="py-24" style="background-color: var(--bg-white);">
             <div class="container mx-auto px-6" data-aos="fade-up">
-                <h2 class="text-3xl md:text-4xl font-semibold text-center mb-12">Design Gallery</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-semibold text-center mb-12 tracking-tight">Technical Skills</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
 
-                    <a href="#" target="_blank" rel="noopener noreferrer" class="block bg-white rounded-lg shadow-md overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
-                        <img src="https://placehold.co/600x400/eeeeee/374151?text=Gallery+Image+1" alt="Gallery Item 1" class="w-full h-64 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Gallery Item 1</h3>
-                            <p class="text-sm" style="color: var(--text-secondary);">A short description of your design, artwork, or render. Explain what it is and what makes it interesting.</p>
+                    <!-- Group 1: Security -->
+                    <div class="p-8 rounded-2xl shadow-premium border card-hover"
+                        style="background-color: var(--card-bg); border-color: var(--border-color);">
+                        <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-6"
+                            style="background-color: var(--accent-light);">
+                            <!-- Shield Icon -->
+                            <svg class="w-6 h-6" fill="none" stroke="var(--accent)" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                                </path>
+                            </svg>
                         </div>
-                    </a>
+                        <h3 class="text-xl font-bold mb-4">Security Operations</h3>
+                        <ul class="space-y-3" style="color: var(--text-secondary);">
+                            <li class="flex items-center">
+                                <span class="w-1.5 h-1.5 rounded-full mr-2"
+                                    style="background-color: var(--accent);"></span>
+                                Penetration Testing & CEH
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-1.5 h-1.5 rounded-full mr-2"
+                                    style="background-color: var(--accent);"></span>
+                                Network Security / Firewalls
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-1.5 h-1.5 rounded-full mr-2"
+                                    style="background-color: var(--accent);"></span>
+                                Vulnerability Assessment
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-1.5 h-1.5 rounded-full mr-2"
+                                    style="background-color: var(--accent);"></span>
+                                SIEM & Log Analysis
+                            </li>
+                        </ul>
+                    </div>
 
-                    <a href="#" target="_blank" rel="noopener noreferrer" class="block bg-white rounded-lg shadow-md overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
-                        <img src="https://placehold.co/600x400/eeeeee/374151?text=Gallery+Image+2" alt="Gallery Item 2" class="w-full h-64 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2">Gallery Item 2</h3>
-                            <p class="text-sm" style="color: var(--text-secondary);">A short description of your design, artwork, or render. Explain what it is and what makes it interesting.</p>
+                    <!-- Group 2: Languages -->
+                    <div class="p-8 rounded-2xl shadow-premium border card-hover"
+                        style="background-color: var(--card-bg); border-color: var(--border-color);">
+                        <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-6"
+                            style="background-color: var(--accent-light);">
+                            <!-- Code Icon -->
+                            <svg class="w-6 h-6" fill="none" stroke="var(--accent)" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                            </svg>
                         </div>
-                    </a> 
+                        <h3 class="text-xl font-bold mb-4">Programming</h3>
+                        <ul class="space-y-3" style="color: var(--text-secondary);">
+                            <li class="flex items-center">
+                                <span class="w-1.5 h-1.5 rounded-full mr-2"
+                                    style="background-color: var(--accent);"></span>
+                                Python (Scripting & Automation)
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-1.5 h-1.5 rounded-full mr-2"
+                                    style="background-color: var(--accent);"></span>
+                                C / C++
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-1.5 h-1.5 rounded-full mr-2"
+                                    style="background-color: var(--accent);"></span>
+                                SQL & Database Security
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-1.5 h-1.5 rounded-full mr-2"
+                                    style="background-color: var(--accent);"></span>
+                                Shell Scripting (Bash)
+                            </li>
+                        </ul>
+                    </div>
 
-
-
-                    <a href="#" target="_blank" rel="noopener noreferrer" class="block bg-white rounded-lg shadow-md overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
-                        <img src="https://placehold.co/600x400/eeeeee/374151?text=Gallery+Image+3" alt="Gallery Item 3" class="w-full h-64 object-cover">
-                        <div class="p-6">
-                             <h3 class="text-xl font-bold mb-2">Gallery Item 3</h3>
-                             <p class="text-sm" style="color: var(--text-secondary);">A short description of your design, artwork, or render. Explain what it is and what makes it interesting.</p>
+                    <!-- Group 3: Tools & OS -->
+                    <div class="p-8 rounded-2xl shadow-premium border card-hover"
+                        style="background-color: var(--card-bg); border-color: var(--border-color);">
+                        <div class="w-12 h-12 rounded-lg flex items-center justify-center mb-6"
+                            style="background-color: var(--accent-light);">
+                            <!-- Server Icon -->
+                            <svg class="w-6 h-6" fill="none" stroke="var(--accent)" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01">
+                                </path>
+                            </svg>
                         </div>
-                    </a>
-
+                        <h3 class="text-xl font-bold mb-4">Tools & Platforms</h3>
+                        <ul class="space-y-3" style="color: var(--text-secondary);">
+                            <li class="flex items-center">
+                                <span class="w-1.5 h-1.5 rounded-full mr-2"
+                                    style="background-color: var(--accent);"></span>
+                                Linux (Kali, Ubuntu)
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-1.5 h-1.5 rounded-full mr-2"
+                                    style="background-color: var(--accent);"></span>
+                                Wireshark & Nmap
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-1.5 h-1.5 rounded-full mr-2"
+                                    style="background-color: var(--accent);"></span>
+                                Metasploit Framework
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-1.5 h-1.5 rounded-full mr-2"
+                                    style="background-color: var(--accent);"></span>
+                                Git & GitHub
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- Contact Section -->
         <section id="contact" class="py-24" style="background-color: var(--bg-primary);">
             <div class="container mx-auto px-6" data-aos="fade-up">
                 <div class="max-w-3xl mx-auto text-center">
-                    <h2 class="text-3xl md:text-4xl font-semibold mb-4">Let's Build Something Great</h2>
-                    <p class="text-lg mb-8" style="color: var(--text-secondary);">I am always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious vision. Feel free to reach out.</p>
-                    <a href="mailto:your.email@example.com" class="text-xl font-medium accent-text hover:underline">
+                    <h2 class="text-3xl md:text-4xl font-semibold mb-4 tracking-tight">Let's Secure the Future</h2>
+                    <p class="text-lg mb-8 leading-relaxed" style="color: var(--text-secondary);">
+                        Always exploring new vulnerabilities and defense mechanisms. Open to collaboration on security
+                        research and projects.
+                    </p>
+                    <a href="mailto:palaaastha@gmail.com"
+                        class="text-xl font-medium accent-text hover:underline transition-all duration-200 inline-block hover:opacity-80">
                         palaaastha@gmail.com
                     </a>
                     <div class="flex justify-center space-x-6 mt-8">
-                        <a href="https://www.linkedin.com/in/aastha-pala-842b1a314/" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:accent-text transition duration-300">
-                           <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        <a href="https://www.linkedin.com/in/aastha-pala-842b1a314/" target="_blank"
+                            rel="noopener noreferrer"
+                            class="hover:accent-text transition-all duration-300 transform hover:scale-110"
+                            style="color: var(--text-secondary);">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                            </svg>
                         </a>
-                        </div>
                     </div>
+                </div>
             </div>
         </section>
     </main>
 
-    <footer class="py-8 bg-white">
+    <!-- Footer -->
+    <footer class="py-8 border-t" style="background-color: var(--bg-white); border-color: var(--border-color);">
         <div class="container mx-auto px-6 text-center">
-             <p class="text-sm" style="color: var(--text-secondary);">&copy; 2025 Aastha Pala. Designed with care.</p>
+            <p class="text-sm" style="color: var(--text-secondary);">&copy; 2025 Aastha Pala. All Rights Reserved.
+            </p>
         </div>
     </footer>
 
+    <!-- AOS (Animate on Scroll) Library Script -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
         // Initialize AOS
@@ -316,13 +721,59 @@
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
-                if(targetElement) {
+                if (targetElement) {
                     targetElement.scrollIntoView({
                         behavior: 'smooth'
                     });
                 }
             });
         });
+
+        // Dark mode toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIconMobile = document.getElementById('sun-icon-mobile');
+        const moonIconMobile = document.getElementById('moon-icon-mobile');
+        const html = document.documentElement;
+
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            html.setAttribute('data-theme', 'dark');
+            sunIcon.classList.remove('hidden');
+            moonIcon.classList.add('hidden');
+            sunIconMobile.classList.remove('hidden');
+            moonIconMobile.classList.add('hidden');
+        }
+
+        function toggleTheme() {
+            const currentTheme = html.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+                sunIconMobile.classList.add('hidden');
+                moonIconMobile.classList.remove('hidden');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                sunIcon.classList.remove('hidden');
+                moonIcon.classList.add('hidden');
+                sunIconMobile.classList.remove('hidden');
+                moonIconMobile.classList.add('hidden');
+            }
+        }
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
+        }
+        if (themeToggleMobile) {
+            themeToggleMobile.addEventListener('click', toggleTheme);
+        }
     </script>
 </body>
+
 </html>
